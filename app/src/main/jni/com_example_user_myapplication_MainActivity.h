@@ -23,6 +23,14 @@ JNIEXPORT void JNICALL Java_com_example_user_myapplication_MainActivity_cvGray
 JNIEXPORT jint JNICALL Java_com_example_user_myapplication_MainActivity_detectFace
   (JNIEnv *, jobject, jstring, jlong, jlong);
 
+/*
+ * Class:     com_example_user_myapplication_MainActivity
+ * Method:    Similarity
+ * Signature: (JJ)D
+ */
+JNIEXPORT jdouble JNICALL Java_com_example_user_myapplication_MainActivity_Similarity
+  (JNIEnv *, jobject, jlong, jlong);
+
 #ifdef __cplusplus
 }
 #endif

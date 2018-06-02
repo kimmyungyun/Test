@@ -67,4 +67,15 @@ JNIEXPORT jint JNICALL Java_com_example_user_myapplication_MainActivity_detectFa
 
     return retVal;
     }
+JNIEXPORT jdouble JNICALL Java_com_example_user_myapplication_MainActivity_Similarity
+        (JNIEnv *env, jobject, jlong img1, jlong img2){
+            Mat& input = *(Mat*)img1;
+            Mat& imput2 = *(Mat*)img2;
+
+            Mat gray1;
+            Mat gray2;
+
+            cvtColor(input, gray1, CV_RGB2GRAY);
+            cvtColor(imput2, gray2, CV_RGB2GRAY);
+    }
 }

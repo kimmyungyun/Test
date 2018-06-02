@@ -4,8 +4,8 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     public native void cvGray(long matAddrInput, long matAddrResult);
     public native int detectFace(String filename, long matAddrInput, long matAddrResult);
+    public native double Similarity(long matAddrInput1, long matAddrInput2);
     static{
         System.loadLibrary("opencv_java3");
         System.loadLibrary("native-lib");
@@ -47,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //쯔위 사진 가져오기
+        BitmapDrawable drawable = (BitmapDrawable)getResources().getDrawable(R.drawable.zwui);
+        bmp2 = drawable.getBitmap();
 
         try{
             is = getResources().getAssets().open("haarcascade_frontalface_alt.xml");
@@ -109,16 +113,24 @@ public class MainActivity extends AppCompatActivity {
                     }catch(IOException e){
                         e.printStackTrace();
                     }
-                    //image1.setImageURI(uri);
-                    //Mat result = ToGray(bmp);
-                    //Utils.matToBitmap(result,bmp);
+
                     matInput = new Mat();
                     matResult = new Mat();
                     Utils.bitmapToMat(bmp,matInput);
-                    detectFace(mCascadeFile.getAbsolutePath(), matInput.getNativeObjAddr(), matResult.getNativeObjAddr() );
+                    //쯔위 이미지 Mat으로 바꾸기
+                    Mat matResult2 = new Mat();
+                    Utils.bitmapToMat(bmp2, matResult2);
+
+
+                    int x = detectFace(mCascadeFile.getAbsolutePath(), matInput.getNativeObjAddr(), matResult.getNativeObjAddr() );
+                    Log.d("face detect ","true :"+x);
+                    int y = detectFace(mCascadeFile.getAbsolutePath(), matResult2.getNativeObjAddr(), matResult2.getNativeObjAddr() );
+                    Log.d("face detect ","true :"+y);
+                    //Similarity(matResult.getNativeObjAddr(), matResult2.getNativeObjAddr());
+
                     Log.d("tag","width :"+matResult.cols()+" heigth :"+matResult.rows());
-                    Bitmap img = Bitmap.createBitmap(matResult.cols(), matResult.rows(),Bitmap.Config.ARGB_8888);
-                    Utils.matToBitmap(matResult,img);
+                    Bitmap img = Bitmap.createBitmap(matResult2.cols(), matResult2.rows(),Bitmap.Config.ARGB_8888);
+                    Utils.matToBitmap(matResult2,img);
 
                     image1.setImageBitmap(img);
                 }
