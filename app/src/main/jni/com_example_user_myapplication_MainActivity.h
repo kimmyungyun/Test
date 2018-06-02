@@ -15,6 +15,14 @@ extern "C" {
 JNIEXPORT void JNICALL Java_com_example_user_myapplication_MainActivity_cvGray
   (JNIEnv *, jobject, jlong, jlong);
 
+/*
+ * Class:     com_example_user_myapplication_MainActivity
+ * Method:    detectFace
+ * Signature: (Ljava/lang/String;JJ)I
+ */
+JNIEXPORT jint JNICALL Java_com_example_user_myapplication_MainActivity_detectFace
+  (JNIEnv *, jobject, jstring, jlong, jlong);
+
 #ifdef __cplusplus
 }
 #endif
